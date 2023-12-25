@@ -1,0 +1,32 @@
+#navMenu{
+    display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
+    background-color: grey;
+    padding: 10px;
+}
+h1{
+    display: flex;
+    justify-content: center;
+    margin: 2vw 0;
+}
+#navMenu a:hover{
+    list-style-type: none;
+    text-decoration: none;
+    color: rgb(32, 61, 138);
+    font-size: large;
+    font-weight: bold;
+}
+header a{
+    text-decoration: none;
+    color: black;
+}
+header h1:hover{
+    text-decoration: none;
+    color: #356e45;
+}
+#navMenu a{
+    list-style-type: none;
+    color: white;
+    font-size: large;
+}

@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+img, input{
+    width: 100%;
+}
+body{
+    background-color: #a8a8a8;
+}

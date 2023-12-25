@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- probleme avec le body.css conflit sur l'affichage du quizz -->
+    <!-- <link rel="stylesheet" href="../assets/css/body.css"> -->
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="./javascript.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <a href="../index.html">
+            <h1>Site de questionnaire</h1>
+        </a>
+        <nav>
+            <div id="navMenu">
+                <a href="./script.html">ONGLET1</a>
+                <a href="">ONGLET2</a>
+                <a href="">ONGLET3</a>
+            </div>
+        </nav>
+    </header>
+    <section id="deck1">
+        <nav>
+            <button id="lesson-btn">lesson</button>
+            <button id="quizz1-btn" onclick="loadQuizz1()">Quizz 1</button>
+            <button id="quizz2-btn" onclick="loadQuizz2()">Quizz 2</button>
+            <button id="quizz3-btn" onclick="loadQuizz3()">Quizz 3</button>
+        </nav>
+        <div id="deck1-lesson">
+            <div id="lesson-deck">
+                <div id="deck1a">
+                    <p>contenu de la page 1</p>
+                </div>
+                <div id="deck1b" class="hide">
+                    <p>contenu de la page 2</p>
+                </div>
+                <div id="deck1c" class="hide">
+                    <p>contenu de la page 3</p>
+                </div>
+                <div id="deck1d" class="hide">
+                    <p>contenu de la page 4</p>
+                </div>
+                <div class="lesson-buttons">
+                    <button id="btn-left" onclick="prev()">
+                        <div>
+                            <img src="../assets/icons/chevron-left-solid.svg" alt="">
+                            <img src="../assets/icons/chevron-left-solid.svg" alt="">
+                        </div>
+                        Prev
+                    </button>
+                    <button id="btn-right" onclick="next()">Next
+                        <div>
+                            <img src="../assets/icons/chevron-right-solid.svg" alt="">
+                            <img src="../assets/icons/chevron-right-solid.svg" alt="">
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="result1" class="quiz-body hide"></div>
+                        <div id="result2" class="quiz-body hide"></div>
+                        <div id="result3" class="quiz-body hide"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    </section>
+</body>
+
+</html>
