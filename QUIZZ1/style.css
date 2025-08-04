@@ -96,3 +96,8 @@
     right: 0;
     margin: auto;
 }
+/*  */
+.option-block-container {
+    max-width: 420px; /* garde la largeur max si tu veux, mais surtout... */
+    width: 100%;      /* ...que ça prenne la largeur dispo */
+}
