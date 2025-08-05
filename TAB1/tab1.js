@@ -80,11 +80,11 @@ function loadQuizz1() {
 }
 
 function loadQuizz2() {
-    loadQuizzContent(1, "./quizz2.js");
+    loadQuizzContent(0, "./quizz2.js");
 }
 
 function loadQuizz3() {
-    loadQuizzContent(2, "./quizz3.js");
+    loadQuizzContent(0, "./quizz3.js");
 }
 
 // --------- Deck lessons display --------- //
@@ -132,7 +132,3 @@ function next() {
     currentPage = (currentPage === decks.length - 1) ? 0 : currentPage + 1;
     displayPage(currentPage);
 }
-
-// document.addEventListener("DOMContentLoaded", function() {
-//     displayPage(currentPage);
-// });
