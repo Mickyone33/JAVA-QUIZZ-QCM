@@ -81,7 +81,6 @@
     display: block;
 }
 
-
 .option-block {
     /* ... Autres styles ... */
     position: relative; /* Ajoutez cette ligne pour pouvoir positionner l'élément enfant */
