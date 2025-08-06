@@ -1,0 +1,106 @@
+body{
+    background-color: #a8a8a8;
+}
+.hide{
+    display: none;
+}
+.show{
+    display: flex;
+}
+#deck1 nav{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1vh 0;
+}
+#deck1 nav button{
+    padding: .5rem;
+    border-radius: 15px;
+    border: none;
+    font-size: large;
+    letter-spacing: .5px;
+}
+#deck1 nav button:hover{
+    padding: .5rem;
+    border-radius: 15px;
+    border: none;
+    font-size: large;
+    letter-spacing: .5px;
+    color: white;
+    background-color: rgb(32, 61, 138);;
+}
+
+
+#lesson-deck{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#lesson-deck p{
+    width: 100%;
+    text-align: center;
+}
+.lesson-buttons{
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+}
+.lesson-buttons button{
+    padding: .5rem;
+    border-radius: 8px;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    border: none;
+}
+.lesson-buttons #btn-left:hover{
+    background-color: #ad6a1e;
+    font-weight: bold;
+}
+.lesson-buttons #btn-right:hover{
+    background-color: #356e45;
+    font-weight: bold;
+}
+.lesson-buttons div{
+    display: flex;
+    align-items: center;
+    margin: 0 8px;
+}
+
+
+#deck1-quizz{
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+}
+#deck1-quizz .options{
+    width: 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+}
+#deck1-quizz .options label{
+    display: flex;
+    /* border: 1px black solid; */
+    margin-bottom: .3rem;
+    padding: 0 15px;
+}
+#deck1-quizz button{
+    width: 8vw;
+    padding: .3rem;
+    font-size: large;
+    border-radius: 10px;
+    border: none;
+}
+#deck1-quizz #answer{
+    display: flex;
+}
+#deck1-quizz #answer p{
+    margin: 5px 3px;
+}
+#quizz-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 60%;
+}

@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <nav>
           <div id="navMenu">
               <a href="../TAB1/tab1.html">ONGLET1</a>
-              <a href="">ONGLET2</a>
+              <a href="../TAB2/tab2.html">ONGLET2</a>
               <a href="">ONGLET3</a>
           </div>
       </nav>
