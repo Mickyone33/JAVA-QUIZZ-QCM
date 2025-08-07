@@ -76,15 +76,15 @@ async function loadQuizzContent(containerIndex, url) {
 
 // Shortcut functions
 function loadQuizz1() {
-    loadQuizzContent(0, "./tab2-quizz1.js");
+    loadQuizzContent(0, "./QUIZZES/tab2-quizz1.js");
 }
 
 function loadQuizz2() {
-    loadQuizzContent(0, "./tab2-quizz2.js");
+    loadQuizzContent(0, "./QUIZZES/tab2-quizz2.js");
 }
 
 function loadQuizz3() {
-    loadQuizzContent(0, "./tab2-quizz3.js");
+    loadQuizzContent(0, "./QUIZZES/tab2-quizz3.js");
 }
 
 // --------- Deck lessons display --------- //
@@ -132,3 +132,38 @@ function next() {
     currentPage = (currentPage === decks.length - 1) ? 0 : currentPage + 1;
     displayPage(currentPage);
 }
+
+// 
+
+const deckIds = ["deck1a", "deck1b", "deck1c", "deck1d"];
+const deckUrls = [
+    "./LESSONS/test1.html", // pour deck1a
+    "./LESSONS/test2.html", // pour deck1b
+    "./LESSONS/test3.html", // pour deck1c
+    "./LESSONS/test4.html"  // pour deck1d
+];
+
+function loadHTMLIntoContainer(url, containerId) {
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById(containerId).innerHTML = html;
+        })
+        .catch(error => console.error('Erreur de chargement:', error));
+}
+
+function displayPage(page) {
+    deckIds.forEach((id, index) => {
+        const deck = document.getElementById(id);
+        deck.classList.toggle("show", index === page);
+        deck.classList.toggle("hide", index !== page);
+        if (index === page) {
+            loadHTMLIntoContainer(deckUrls[index], id);
+        } else {
+            deck.innerHTML = ""; // décharge le contenu
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    displayPage(0); // Affiche et charge le contenu du premier deck (deck1a)
+});
