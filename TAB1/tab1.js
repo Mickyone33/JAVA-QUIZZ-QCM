@@ -78,20 +78,8 @@ async function loadQuizzContent(containerIndex, url) {
 }
 
 // Shortcut functions
-function loadQuizz1() {
-    loadQuizzContent(0, "./QUIZZES/tab1-quizz1.js");
-}
-
-function loadQuizz2() {
-    loadQuizzContent(0, "./QUIZZES/tab1-quizz2.js");
-}
-
-function loadQuizz3() {
-    loadQuizzContent(0, "./QUIZZES/tab1-quizz3.js");
-}
-
-function loadQuizz4() {
-    loadQuizzContent(0, "./QUIZZES/tab1-quizz4.js");
+function loadQuizz(n) {
+    loadQuizzContent(n, `./QUIZZES/tab1-quizz${n+1}.js`);
 }
 
 // --------- Deck lessons display --------- //
