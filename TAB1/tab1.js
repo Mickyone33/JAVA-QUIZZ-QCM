@@ -1,58 +1,42 @@
-
+// --- Gestion des containers ---
 function getResultContainer(index) {
     return document.getElementById(`deck2${String.fromCharCode(97 + index)}`);
 }
-
-let loadedScripts = [];
-
-// Function to unload all quiz scripts
-function unloadAllQuizzScripts() {
-    loadedScripts.forEach(script => {
-        if (script) script.remove();
-    });
-    loadedScripts = [];
+function getLessonContainer(index) {
+    return document.getElementById(`deck1${String.fromCharCode(97 + index)}`);
 }
 
-// Function to load a quiz script dynamically
+// --- Gestion des scripts ---
+let loadedScripts = [];
+function unloadAllQuizzScripts() {
+    loadedScripts.forEach(script => script.remove());
+    loadedScripts = [];
+}
 function loadQuizzScript(url) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = url;
-        script.setAttribute('data-quiz', 'true');
-        script.onload = () => {
-            if (typeof quizJS !== 'undefined') {
-                resolve(script);
-            } else {
-                reject(new Error('quizJS not defined in ' + url));
-            }
-        };
-        script.onerror = () => reject(new Error('Failed to load ' + url));
+        script.onload = () => (typeof quizJS !== 'undefined') ? resolve(script) : reject(`quizJS not defined in ${url}`);
+        script.onerror = () => reject(`Failed to load ${url}`);
         document.body.appendChild(script);
     });
 }
 
-// Generic function to load quiz content into a container
-async function loadQuizzContent(containerIndex, url) {
-    // Unload previous quiz scripts
+// --- Chargement du quiz ---
+async function loadQuizzContent(index, url) {
     unloadAllQuizzScripts();
+    lessonDeck.classList.replace("show", "hide");
 
-    // Hide lesson deck
-    lessonDeck.classList.remove("show");
-    lessonDeck.classList.add("hide");
-
-
-    // Hide all result containers and clear content (dynamique)
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);
         if (container) {
-            container.classList.toggle("show", i === containerIndex);
-            container.classList.toggle("hide", i !== containerIndex);
+            container.classList.toggle("show", i === index);
+            container.classList.toggle("hide", i !== index);
             container.innerHTML = "";
         }
     }
 
-    // Add quiz form HTML to the current container
-    const currentContainer = getResultContainer(containerIndex);
+    const currentContainer = getResultContainer(index);
     currentContainer.innerHTML = `
         <form name="quizForm" onSubmit="return false;">
             <fieldset class="form-group">
@@ -64,62 +48,40 @@ async function loadQuizzContent(containerIndex, url) {
             <button name="next" id="next" class="btn btn-success">Suivant</button>
         </form>`;
 
-    // Load the quiz data script (quizz1.js etc.)
     try {
         const script = await loadQuizzScript(url);
         loadedScripts.push(script);
         selectedopt = undefined;
-
-        const quizAppInstance = new QuizApp(quizJS, `deck2${String.fromCharCode(97 + containerIndex)}`);
-        quizAppInstance.init();
-    } catch (error) {
-        console.error(`Error loading ${url}:`, error);
+        new QuizApp(quizJS, `deck2${String.fromCharCode(97 + index)}`).init();
+    } catch (err) {
+        console.error(err);
     }
 }
-
-// Shortcut functions
 function loadQuizz(n) {
-    loadQuizzContent(n, `./QUIZZES/tab1-quizz${n+1}.js`);
+    loadQuizzContent(n, `./QUIZZES/tab1-quizz${n + 1}.js`);
 }
 
-// --------- Deck lessons display --------- //
-const lesson = document.getElementById("lesson-btn");
+// --- Gestion des leçons ---
 const lessonDeck = document.getElementById("deck1-lessons");
-
-lesson.addEventListener("click", () => {
-    // Hide all quiz containers dynamiquement
+document.getElementById("lesson-btn").addEventListener("click", () => {
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);
-        if (container) {
-            container.classList.remove("show");
-            container.classList.add("hide");
-        }
+        if (container) container.classList.replace("show", "hide");
     }
-
-    // Unload any loaded quiz scripts
     unloadAllQuizzScripts();
-
-    // Show lesson deck
-    lessonDeck.classList.remove("hide");
-    lessonDeck.classList.add("show");
+    lessonDeck.classList.replace("hide", "show");
+    displayPage(currentPage);
 });
 
-// Deck navigation
-// Génère dynamiquement le tableau deckUrls selon le nombre de containers deck1x présents dans le HTML
+// --- Navigation des leçons ---
 const deckUrls = (() => {
-    let urls = [];
-    let i = 0;
+    let urls = [], i = 0;
     while (document.getElementById(`deck1${String.fromCharCode(97 + i)}`)) {
-        urls.push(`./LESSONS/test${i+1}.html`);
+        urls.push(`./LESSONS/test${i + 1}.html`);
         i++;
     }
     return urls;
 })();
-
-function getLessonContainer(index) {
-    return document.getElementById(`deck1${String.fromCharCode(97 + index)}`);
-}
-
 let currentPage = 0;
 
 function displayPage(page) {
@@ -136,40 +98,23 @@ function displayPage(page) {
         }
     }
 }
-
 function prev() {
     currentPage = (currentPage === 0) ? deckUrls.length - 1 : currentPage - 1;
     displayPage(currentPage);
 }
-
 function next() {
     currentPage = (currentPage === deckUrls.length - 1) ? 0 : currentPage + 1;
     displayPage(currentPage);
 }
-
-// function loadHTMLIntoContainer(url, containerId) {
-//     fetch(url)
-//         .then(response => response.text())
-//         .then(html => {
-//             document.getElementById(containerId).innerHTML = html;
-//         })
-//         .catch(error => console.error('Erreur de chargement:', error));
-// }
-
-
-
 function loadHTMLIntoContainer(url, containerId) {
     fetch(url)
-        .then(response => response.text())
+        .then(res => res.text())
         .then(html => {
             document.getElementById(containerId).innerHTML = html;
             Prism.highlightAll();
         })
-        .catch(error => console.error('Erreur de chargement:', error));
+        .catch(err => console.error('Erreur de chargement:', err));
 }
 
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    displayPage(0); // Affiche et charge le contenu du premier deck (deck1a)
-});
+// --- Init ---
+document.addEventListener('DOMContentLoaded', () => displayPage(0));
