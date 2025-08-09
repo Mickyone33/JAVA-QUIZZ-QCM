@@ -148,6 +148,7 @@ function loadHTMLIntoContainer(url, containerId) {
         .then(response => response.text())
         .then(html => {
             document.getElementById(containerId).innerHTML = html;
+            Prism.highlightAll(); // <-- Ajoute cette ligne !
         })
         .catch(error => console.error('Erreur de chargement:', error));
 }

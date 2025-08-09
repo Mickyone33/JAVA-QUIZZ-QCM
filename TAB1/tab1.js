@@ -1,8 +1,7 @@
-const resultContainers = [
-    document.getElementById("result1"),
-    document.getElementById("result2"),
-    document.getElementById("result3")
-];
+
+function getResultContainer(index) {
+    return document.getElementById(`deck2${String.fromCharCode(97 + index)}`);
+}
 
 let loadedScripts = [];
 
@@ -41,15 +40,19 @@ async function loadQuizzContent(containerIndex, url) {
     lessonDeck.classList.remove("show");
     lessonDeck.classList.add("hide");
 
-    // Hide all result containers and clear content
-    resultContainers.forEach((container, index) => {
-        container.classList.toggle("show", index === containerIndex);
-        container.classList.toggle("hide", index !== containerIndex);
-        container.innerHTML = "";
-    });
+
+    // Hide all result containers and clear content (dynamique)
+    for (let i = 0; i < 26; i++) {
+        const container = getResultContainer(i);
+        if (container) {
+            container.classList.toggle("show", i === containerIndex);
+            container.classList.toggle("hide", i !== containerIndex);
+            container.innerHTML = "";
+        }
+    }
 
     // Add quiz form HTML to the current container
-    const currentContainer = resultContainers[containerIndex];
+    const currentContainer = getResultContainer(containerIndex);
     currentContainer.innerHTML = `
         <form name="quizForm" onSubmit="return false;">
             <fieldset class="form-group">
@@ -67,7 +70,7 @@ async function loadQuizzContent(containerIndex, url) {
         loadedScripts.push(script);
         selectedopt = undefined;
 
-        const quizAppInstance = new QuizApp(quizJS);
+        const quizAppInstance = new QuizApp(quizJS, `deck2${String.fromCharCode(97 + containerIndex)}`);
         quizAppInstance.init();
     } catch (error) {
         console.error(`Error loading ${url}:`, error);
@@ -87,16 +90,23 @@ function loadQuizz3() {
     loadQuizzContent(0, "./QUIZZES/tab1-quizz3.js");
 }
 
+function loadQuizz4() {
+    loadQuizzContent(0, "./QUIZZES/tab1-quizz4.js");
+}
+
 // --------- Deck lessons display --------- //
 const lesson = document.getElementById("lesson-btn");
 const lessonDeck = document.getElementById("deck1-lesson");
 
 lesson.addEventListener("click", () => {
-    // Hide all quiz containers
-    resultContainers.forEach(container => {
-        container.classList.remove("show");
-        container.classList.add("hide");
-    });
+    // Hide all quiz containers dynamiquement
+    for (let i = 0; i < 26; i++) {
+        const container = getResultContainer(i);
+        if (container) {
+            container.classList.remove("show");
+            container.classList.add("hide");
+        }
+    }
 
     // Unload any loaded quiz scripts
     unloadAllQuizzScripts();
@@ -157,6 +167,7 @@ function loadHTMLIntoContainer(url, containerId) {
         .then(response => response.text())
         .then(html => {
             document.getElementById(containerId).innerHTML = html;
+            Prism.highlightAll();
         })
         .catch(error => console.error('Erreur de chargement:', error));
 }
@@ -173,6 +184,8 @@ function displayPage(page) {
         }
     });
 }
+
+
 document.addEventListener('DOMContentLoaded', function() {
     displayPage(0); // Affiche et charge le contenu du premier deck (deck1a)
 });
