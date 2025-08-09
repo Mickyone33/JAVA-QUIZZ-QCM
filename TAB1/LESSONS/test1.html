@@ -5,52 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/prism-okaidia.css">
-        <script src="../../assets/SCRIPT/pre-snippets.js" defer></script>
+    <script src="../../assets/SCRIPT/pre-snippets.js" defer></script>
     <title>Document</title>
 </head>
 
 <body>
     <h1>ceci est le tab1-test1.html</h1>
-<pre><code class="language-javascript">
-        this.displayQuiz = function (cque) {
-        self.currentque = cque;
-
-        if (self.currentque &lt; self.totalque) {
-            document.getElementById("qid").textContent = self.quiz[self.currentque].id + '.';
-            document.getElementById("question").textContent = self.quiz[self.currentque].question;
-
-            const optionsContainer = document.getElementById("question-options");
-            optionsContainer.innerHTML = "";
-
-            const options = self.quiz[self.currentque].options[0];
-            for (var key in options) {
-                if (options.hasOwnProperty(key)) {
-                    var isChecked = (self.quiz[self.currentque].selectedOption === key) ? 'checked' : '';
-                    var optionHTML = `
-                        &lt;div class='form-check option-block'&gt;
-                            &lt;label class='form-check-label'&gt;
-                                &lt;input type='radio' class='form-check-input' name='option' id='q${key}' value='${key}' ${isChecked}&gt;
-                                &lt;span&gt;${options[key]}&lt;/span&gt;
-                            &lt;/label&gt;
-                        &lt;/div&gt;
-                    `;
-                    optionsContainer.insertAdjacentHTML('beforeend', optionHTML);
-                }
-            }
-
-            document.getElementById("previous").disabled = self.currentque &lt;= 0;
-        }
-
-        if (self.currentque &gt;= self.totalque) {
-            document.getElementById('next').disabled = true;
-            self.calculateScore();
-            self.showResult();
-        } else {
-            document.getElementById('next').disabled = false;
-        }
-    };
+    <pre><code class="language-javascript">
+function unloadAllQuizzScripts() {
+    loadedScripts.forEach(script => {
+        if (script) script.remove();
+    });
+    loadedScripts = [];
+}
 </code></pre>
-</code></pre>
+    </code></pre>
 </body>
 
 </html>

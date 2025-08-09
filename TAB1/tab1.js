@@ -84,7 +84,7 @@ function loadQuizz(n) {
 
 // --------- Deck lessons display --------- //
 const lesson = document.getElementById("lesson-btn");
-const lessonDeck = document.getElementById("deck1-lesson");
+const lessonDeck = document.getElementById("deck1-lessons");
 
 lesson.addEventListener("click", () => {
     // Hide all quiz containers dynamiquement
@@ -105,33 +105,47 @@ lesson.addEventListener("click", () => {
 });
 
 // Deck navigation
-const decks = [
-    document.getElementById("deck1a"),
-    document.getElementById("deck1b"),
-    document.getElementById("deck1c"),
-    document.getElementById("deck1d")
-];
+// Génère dynamiquement le tableau deckUrls selon le nombre de containers deck1x présents dans le HTML
+const deckUrls = (() => {
+    let urls = [];
+    let i = 0;
+    while (document.getElementById(`deck1${String.fromCharCode(97 + i)}`)) {
+        urls.push(`./LESSONS/test${i+1}.html`);
+        i++;
+    }
+    return urls;
+})();
+
+function getLessonContainer(index) {
+    return document.getElementById(`deck1${String.fromCharCode(97 + index)}`);
+}
 
 let currentPage = 0;
 
 function displayPage(page) {
-    decks.forEach((deck, index) => {
-        deck.classList.toggle("show", index === page);
-        deck.classList.toggle("hide", index !== page);
-    });
+    for (let i = 0; i < deckUrls.length; i++) {
+        const deck = getLessonContainer(i);
+        if (deck) {
+            deck.classList.toggle("show", i === page);
+            deck.classList.toggle("hide", i !== page);
+            if (i === page) {
+                loadHTMLIntoContainer(deckUrls[i], deck.id);
+            } else {
+                deck.innerHTML = "";
+            }
+        }
+    }
 }
 
 function prev() {
-    currentPage = (currentPage === 0) ? decks.length - 1 : currentPage - 1;
+    currentPage = (currentPage === 0) ? deckUrls.length - 1 : currentPage - 1;
     displayPage(currentPage);
 }
 
 function next() {
-    currentPage = (currentPage === decks.length - 1) ? 0 : currentPage + 1;
+    currentPage = (currentPage === deckUrls.length - 1) ? 0 : currentPage + 1;
     displayPage(currentPage);
 }
-
-// 
 
 // function loadHTMLIntoContainer(url, containerId) {
 //     fetch(url)
@@ -142,13 +156,7 @@ function next() {
 //         .catch(error => console.error('Erreur de chargement:', error));
 // }
 
-const deckIds = ["deck1a", "deck1b", "deck1c", "deck1d"];
-const deckUrls = [
-    "./LESSONS/test1.html", // pour deck1a
-    "./LESSONS/test2.html", // pour deck1b
-    "./LESSONS/test3.html", // pour deck1c
-    "./LESSONS/test4.html"  // pour deck1d
-];
+
 
 function loadHTMLIntoContainer(url, containerId) {
     fetch(url)
@@ -160,18 +168,6 @@ function loadHTMLIntoContainer(url, containerId) {
         .catch(error => console.error('Erreur de chargement:', error));
 }
 
-function displayPage(page) {
-    deckIds.forEach((id, index) => {
-        const deck = document.getElementById(id);
-        deck.classList.toggle("show", index === page);
-        deck.classList.toggle("hide", index !== page);
-        if (index === page) {
-            loadHTMLIntoContainer(deckUrls[index], id);
-        } else {
-            deck.innerHTML = ""; // décharge le contenu
-        }
-    });
-}
 
 
 document.addEventListener('DOMContentLoaded', function() {

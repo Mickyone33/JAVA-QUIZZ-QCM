@@ -89,7 +89,7 @@ function loadQuizz3() {
 
 // --------- Deck lessons display --------- //
 const lesson = document.getElementById("lesson-btn");
-const lessonDeck = document.getElementById("deck1-lesson");
+const lessonDeck = document.getElementById("deck1-lessons");
 
 lesson.addEventListener("click", () => {
     // Hide all quiz containers
