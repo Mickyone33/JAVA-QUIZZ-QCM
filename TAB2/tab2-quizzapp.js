@@ -1,10 +1,11 @@
 var selectedopt;
 
-var QuizApp = function (quizData) {
+var QuizApp = function (quizData, resultContainerId) {
     this.quiz = quizData;
     this.score = 0;
     this.currentque = 0;
     this.totalque = this.quiz.length;
+    this.resultContainerId = resultContainerId;
     var self = this;
 
     this.displayQuiz = function (cque) {
@@ -55,7 +56,7 @@ var QuizApp = function (quizData) {
     };
 
     this.showResult = function () {
-        const resultContainer = document.getElementById("result1");
+        const resultContainer = document.getElementById(self.resultContainerId);
         resultContainer.classList.add('result1');
         resultContainer.innerHTML = `<h1 class='res-header'>Total Score: ${self.score}/${self.totalque}</h1>`;
 

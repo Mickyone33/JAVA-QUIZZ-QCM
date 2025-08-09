@@ -33,23 +33,27 @@ function loadQuizzScript(url) {
 }
 
 // Generic function to load quiz content into a container
-async function loadQuizzContent(containerIndex, url) {
-    // Unload previous quiz scripts
-    unloadAllQuizzScripts();
+function getResultContainer(index) {
+    return document.getElementById(`deck2${String.fromCharCode(97 + index)}`);
+}
 
-    // Hide lesson deck
+async function loadQuizzContent(index, url) {
+    unloadAllQuizzScripts();
     lessonDeck.classList.remove("show");
     lessonDeck.classList.add("hide");
 
-    // Hide all result containers and clear content
-    resultContainers.forEach((container, index) => {
-        container.classList.toggle("show", index === containerIndex);
-        container.classList.toggle("hide", index !== containerIndex);
-        container.innerHTML = "";
-    });
+    // Hide all quiz containers and clear content
+    for (let i = 0; i < 3; i++) {
+        const container = getResultContainer(i);
+        if (container) {
+            container.classList.toggle("show", i === index);
+            container.classList.toggle("hide", i !== index);
+            container.innerHTML = "";
+        }
+    }
 
     // Add quiz form HTML to the current container
-    const currentContainer = resultContainers[containerIndex];
+    const currentContainer = getResultContainer(index);
     currentContainer.innerHTML = `
         <form name="quizForm" onSubmit="return false;">
             <fieldset class="form-group">
@@ -66,25 +70,15 @@ async function loadQuizzContent(containerIndex, url) {
         const script = await loadQuizzScript(url);
         loadedScripts.push(script);
         selectedopt = undefined;
-
-        const quizAppInstance = new QuizApp(quizJS);
-        quizAppInstance.init();
+        new QuizApp(quizJS, `deck2${String.fromCharCode(97 + index)}`).init();
     } catch (error) {
         console.error(`Error loading ${url}:`, error);
     }
 }
 
 // Shortcut functions
-function loadQuizz1() {
-    loadQuizzContent(0, "./QUIZZES/tab2-quizz1.js");
-}
-
-function loadQuizz2() {
-    loadQuizzContent(0, "./QUIZZES/tab2-quizz2.js");
-}
-
-function loadQuizz3() {
-    loadQuizzContent(0, "./QUIZZES/tab2-quizz3.js");
+function loadQuizz(n) {
+    loadQuizzContent(n, `./QUIZZES/tab2-quizz${n + 1}.js`);
 }
 
 // --------- Deck lessons display --------- //
@@ -92,16 +86,14 @@ const lesson = document.getElementById("lesson-btn");
 const lessonDeck = document.getElementById("deck1-lessons");
 
 lesson.addEventListener("click", () => {
-    // Hide all quiz containers
-    resultContainers.forEach(container => {
-        container.classList.remove("show");
-        container.classList.add("hide");
-    });
-
-    // Unload any loaded quiz scripts
+    for (let i = 0; i < 3; i++) {
+        const container = getResultContainer(i);
+        if (container) {
+            container.classList.remove("show");
+            container.classList.add("hide");
+        }
+    }
     unloadAllQuizzScripts();
-
-    // Show lesson deck
     lessonDeck.classList.remove("hide");
     lessonDeck.classList.add("show");
 });
