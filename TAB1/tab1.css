@@ -1,102 +1,62 @@
-.content {
-    margin-top: 54px;
-}
-
-.header {
-    padding: 15px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 9999;
-}
-
-.left-title {
-    width: 80px;
-    color: #fff;
-    font-size: 18px;
-    float: left;
-}
-
-.right-title {
-    width: 150px;
-    text-align: right;
-    float: right;
-    color: #fff;
-}
-
-.quiz-body {
-    margin-top: 15px;
-    padding-bottom: 50px;
-}
-
-.option-block-container {
-    margin-top: 20px;
-    max-width: 420px;
-}
-
-.option-block {
-    padding: 10px;
-    background: aliceblue;
-    border: 1px solid #84c5fe;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.result-question {
-    font-weight: bold;
-}
-
-.result-item{
-    display: flex;
-    flex-direction: column;
-}
-
-.c-wrong {
-    margin-left: 20px;
-    color: #ff0000;
-}
-
-.c-correct {
-    margin-left: 20px;
-    color: green;
-}
-
-.last-row {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-}
-
-.res-header {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-}
-
-
 .hide{
     display: none;
 }
 .show{
-    display: block;
+    display: flex;
+}
+/* //////////////////////////////////////////////////////// */
+h3{
+    text-align: center;
+    font-size: 1.5rem;
+}
+.deck0-nav button {
+    padding: .5rem;
+    border-radius: 15px;
+    border: 1px solid black;
+    font-size: large;
+    letter-spacing: .5px;
 }
 
-.option-block {
-    /* ... Autres styles ... */
-    position: relative; /* Ajoutez cette ligne pour pouvoir positionner l'élément enfant */
+.deck0-nav {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 25px;
 }
 
-#optionval {
-    position: absolute;
-    width: 100%;
-    top: 10px;
-    bottom: 0;
-    left: 33px;
-    right: 0;
-    margin: auto;
+.deck0-nav button:hover {
+    color: white;
+    background-color: rgb(32, 61, 138);
 }
-/*  */
-.option-block-container {
-    max-width: 420px; /* garde la largeur max si tu veux, mais surtout... */
-    width: 100%;      /* ...que ça prenne la largeur dispo */
+
+.active-tab{    
+    background: linear-gradient(270deg, #388285, #925832, #81228d, #923e18);
+    background-size: 400% 400%;
+    padding: .5rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    animation: gradientMove 8s ease infinite;
+    display: flex;
+    align-items: center;
 }
+
+/* .deck0-nav .active-tab {
+    background: linear-gradient(270deg, #244b2f, #967205, #391fca, #a84c05);
+    background-size: 400% 400%;
+    padding: .5rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    animation: gradientMove 8s ease infinite;
+    display: flex;
+    align-items: center;
+} */
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/* //////////////////////////////////////////////////////// */

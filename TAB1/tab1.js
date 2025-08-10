@@ -1,3 +1,17 @@
+// --- Coloration du bouton actif dans la nav ---
+
+function setActiveNavButton(index) {
+    const navButtons = document.querySelectorAll('.deck0-nav button');
+    navButtons.forEach((btn, i) => {
+        btn.classList.toggle('active-tab', i === index);
+    });
+}
+
+// Appel à chaque changement d'onglet
+window.setActiveNavButton = setActiveNavButton;
+
+// Exemple d'utilisation :
+// setActiveNavButton(0) pour leçon, setActiveNavButton(1) pour quiz1, etc.
 // --- Gestion des containers ---
 function getResultContainer(index) {
     return document.getElementById(`deck2${String.fromCharCode(97 + index)}`);
@@ -24,6 +38,7 @@ function loadQuizzScript(url) {
 
 // --- Chargement du quiz ---
 async function loadQuizzContent(containerIndex, url) {
+
     // Unload previous quiz scripts
     unloadAllQuizzScripts();
 
@@ -31,18 +46,29 @@ async function loadQuizzContent(containerIndex, url) {
     lessonDeck.classList.remove("show");
     lessonDeck.classList.add("hide");
 
+    // Hide all lesson containers
+    for (let i = 0; i < 26; i++) {
+        const lesson = getLessonContainer(i);
+        if (lesson) {
+            lesson.classList.remove("show");
+            lesson.classList.add("hide");
+        }
+    }
 
-    // Hide all result containers and clear content (dynamique)
+    // Hide all result containers and clear content
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);
         if (container) {
-            container.classList.toggle("show", i === containerIndex);
-            container.classList.toggle("hide", i !== containerIndex);
+            container.classList.remove("show");
+            container.classList.add("hide");
             container.innerHTML = "";
         }
     }
-    // Add quiz form HTML to the current container
+
+    // Show only the current quiz container
     const currentContainer = getResultContainer(containerIndex);
+    currentContainer.classList.remove("hide");
+    currentContainer.classList.add("show");
     currentContainer.innerHTML = `
         <form name="quizForm" onSubmit="return false;">
             <fieldset class="form-group">
@@ -67,12 +93,13 @@ async function loadQuizzContent(containerIndex, url) {
     }
 }
 function loadQuizz(n) {
+    setActiveNavButton(n + 1);
     loadQuizzContent(n, `./QUIZZES/tab1-quizz${n + 1}.js`);
 }
-
 // --- Gestion des leçons ---
 const lessonDeck = document.getElementById("deck1-lessons");
 document.getElementById("lesson-btn").addEventListener("click", () => {
+    setActiveNavButton(0);
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);
         if (container) container.classList.replace("show", "hide");
@@ -127,3 +154,7 @@ function loadHTMLIntoContainer(url, containerId) {
 
 // --- Init ---
 document.addEventListener('DOMContentLoaded', () => displayPage(0));
+// Active le bouton 'lesson-btn' au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    setActiveNavButton(0);
+});

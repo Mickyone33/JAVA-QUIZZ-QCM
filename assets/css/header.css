@@ -1,9 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header .onglet{
+    padding: .6rem .5rem;
+    border: white 1px solid;
+    border-radius: 15px;
+    background-color: darkgray;
+}
 #navMenu{
     display: flex;
     justify-content: center;
     justify-content: space-evenly;
     background-color: grey;
     padding: 10px;
+    width: 100%;
 }
 h1{
     display: flex;
@@ -13,9 +24,10 @@ h1{
 #navMenu a:hover{
     list-style-type: none;
     text-decoration: none;
-    color: rgb(32, 61, 138);
+    color: rgb(81, 32, 138);
     font-size: large;
     font-weight: bold;
+    background-color: white;
 }
 header a{
     text-decoration: none;
@@ -26,7 +38,27 @@ header h1:hover{
     color: #356e45;
 }
 #navMenu a{
-    list-style-type: none;
+    /* list-style-type: none; */
     color: white;
     font-size: large;
+    font-weight: bold;
+    
+}
+
+#navMenu a.active-tab {
+    background: linear-gradient(270deg, #244b2f, #967205, #391fca, #a84c05);
+    background-size: 400% 400%;
+    padding: .5rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    animation: gradientMove 8s ease infinite;
+    display: flex;
+    align-items: center;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
