@@ -23,20 +23,26 @@ function loadQuizzScript(url) {
 }
 
 // --- Chargement du quiz ---
-async function loadQuizzContent(index, url) {
+async function loadQuizzContent(containerIndex, url) {
+    // Unload previous quiz scripts
     unloadAllQuizzScripts();
-    lessonDeck.classList.replace("show", "hide");
 
+    // Hide lesson deck
+    lessonDeck.classList.remove("show");
+    lessonDeck.classList.add("hide");
+
+
+    // Hide all result containers and clear content (dynamique)
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);
         if (container) {
-            container.classList.toggle("show", i === index);
-            container.classList.toggle("hide", i !== index);
+            container.classList.toggle("show", i === containerIndex);
+            container.classList.toggle("hide", i !== containerIndex);
             container.innerHTML = "";
         }
     }
-
-    const currentContainer = getResultContainer(index);
+    // Add quiz form HTML to the current container
+    const currentContainer = getResultContainer(containerIndex);
     currentContainer.innerHTML = `
         <form name="quizForm" onSubmit="return false;">
             <fieldset class="form-group">
@@ -48,13 +54,16 @@ async function loadQuizzContent(index, url) {
             <button name="next" id="next" class="btn btn-success">Suivant</button>
         </form>`;
 
+    // Load the quiz data script (quizz1.js etc.)
     try {
         const script = await loadQuizzScript(url);
         loadedScripts.push(script);
         selectedopt = undefined;
-        new QuizApp(quizJS, `deck2${String.fromCharCode(97 + index)}`).init();
-    } catch (err) {
-        console.error(err);
+
+        const quizAppInstance = new QuizApp(quizJS, `deck2${String.fromCharCode(97 + containerIndex)}`);
+        quizAppInstance.init();
+    } catch (error) {
+        console.error(`Error loading ${url}:`, error);
     }
 }
 function loadQuizz(n) {

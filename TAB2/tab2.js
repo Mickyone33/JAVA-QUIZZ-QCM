@@ -4,29 +4,16 @@ function getResultContainer(index) {
 }
 
 let loadedScripts = [];
-
-// Function to unload all quiz scripts
 function unloadAllQuizzScripts() {
-    loadedScripts.forEach(script => {
-        if (script) script.remove();
-    });
+    loadedScripts.forEach(script => script.remove());
     loadedScripts = [];
 }
-
-// Function to load a quiz script dynamically
 function loadQuizzScript(url) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = url;
-        script.setAttribute('data-quiz', 'true');
-        script.onload = () => {
-            if (typeof quizJS !== 'undefined') {
-                resolve(script);
-            } else {
-                reject(new Error('quizJS not defined in ' + url));
-            }
-        };
-        script.onerror = () => reject(new Error('Failed to load ' + url));
+        script.onload = () => (typeof quizJS !== 'undefined') ? resolve(script) : reject(`quizJS not defined in ${url}`);
+        script.onerror = () => reject(`Failed to load ${url}`);
         document.body.appendChild(script);
     });
 }
@@ -83,25 +70,15 @@ function loadQuizz(n) {
 }
 
 // --------- Deck lessons display --------- //
-const lesson = document.getElementById("lesson-btn");
 const lessonDeck = document.getElementById("deck1-lessons");
-
-lesson.addEventListener("click", () => {
-    // Hide all quiz containers dynamiquement
+document.getElementById("lesson-btn").addEventListener("click", () => {
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);
-        if (container) {
-            container.classList.remove("show");
-            container.classList.add("hide");
-        }
+        if (container) container.classList.replace("show", "hide");
     }
-
-    // Unload any loaded quiz scripts
     unloadAllQuizzScripts();
-
-    // Show lesson deck
-    lessonDeck.classList.remove("hide");
-    lessonDeck.classList.add("show");
+    lessonDeck.classList.replace("hide", "show");
+    displayPage(currentPage);
 });
 
 // Deck navigation
@@ -147,17 +124,6 @@ function next() {
     displayPage(currentPage);
 }
 
-// function loadHTMLIntoContainer(url, containerId) {
-//     fetch(url)
-//         .then(response => response.text())
-//         .then(html => {
-//             document.getElementById(containerId).innerHTML = html;
-//         })
-//         .catch(error => console.error('Erreur de chargement:', error));
-// }
-
-
-
 function loadHTMLIntoContainer(url, containerId) {
     fetch(url)
         .then(response => response.text())
@@ -168,8 +134,4 @@ function loadHTMLIntoContainer(url, containerId) {
         .catch(error => console.error('Erreur de chargement:', error));
 }
 
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    displayPage(0); // Affiche et charge le contenu du premier deck (deck1a)
-});
+document.addEventListener('DOMContentLoaded', () => displayPage(0));
