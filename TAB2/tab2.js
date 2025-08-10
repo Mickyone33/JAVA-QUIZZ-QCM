@@ -1,8 +1,7 @@
-const resultContainers = [
-    document.getElementById("result1"),
-    document.getElementById("result2"),
-    document.getElementById("result3")
-];
+
+function getResultContainer(index) {
+    return document.getElementById(`deck2${String.fromCharCode(97 + index)}`);
+}
 
 let loadedScripts = [];
 
@@ -41,15 +40,19 @@ async function loadQuizzContent(containerIndex, url) {
     lessonDeck.classList.remove("show");
     lessonDeck.classList.add("hide");
 
-    // Hide all result containers and clear content
-    resultContainers.forEach((container, index) => {
-        container.classList.toggle("show", index === containerIndex);
-        container.classList.toggle("hide", index !== containerIndex);
-        container.innerHTML = "";
-    });
+
+    // Hide all result containers and clear content (dynamique)
+    for (let i = 0; i < 26; i++) {
+        const container = getResultContainer(i);
+        if (container) {
+            container.classList.toggle("show", i === containerIndex);
+            container.classList.toggle("hide", i !== containerIndex);
+            container.innerHTML = "";
+        }
+    }
 
     // Add quiz form HTML to the current container
-    const currentContainer = resultContainers[containerIndex];
+    const currentContainer = getResultContainer(containerIndex);
     currentContainer.innerHTML = `
         <form name="quizForm" onSubmit="return false;">
             <fieldset class="form-group">
@@ -67,7 +70,7 @@ async function loadQuizzContent(containerIndex, url) {
         loadedScripts.push(script);
         selectedopt = undefined;
 
-        const quizAppInstance = new QuizApp(quizJS);
+        const quizAppInstance = new QuizApp(quizJS, `deck2${String.fromCharCode(97 + containerIndex)}`);
         quizAppInstance.init();
     } catch (error) {
         console.error(`Error loading ${url}:`, error);
@@ -75,16 +78,8 @@ async function loadQuizzContent(containerIndex, url) {
 }
 
 // Shortcut functions
-function loadQuizz1() {
-    loadQuizzContent(0, "./QUIZZES/tab2-quizz1.js");
-}
-
-function loadQuizz2() {
-    loadQuizzContent(0, "./QUIZZES/tab2-quizz2.js");
-}
-
-function loadQuizz3() {
-    loadQuizzContent(0, "./QUIZZES/tab2-quizz3.js");
+function loadQuizz(n) {
+    loadQuizzContent(n, `./QUIZZES/tab2-quizz${n+1}.js`);
 }
 
 // --------- Deck lessons display --------- //
@@ -92,11 +87,14 @@ const lesson = document.getElementById("lesson-btn");
 const lessonDeck = document.getElementById("deck1-lessons");
 
 lesson.addEventListener("click", () => {
-    // Hide all quiz containers
-    resultContainers.forEach(container => {
-        container.classList.remove("show");
-        container.classList.add("hide");
-    });
+    // Hide all quiz containers dynamiquement
+    for (let i = 0; i < 26; i++) {
+        const container = getResultContainer(i);
+        if (container) {
+            container.classList.remove("show");
+            container.classList.add("hide");
+        }
+    }
 
     // Unload any loaded quiz scripts
     unloadAllQuizzScripts();
@@ -107,64 +105,71 @@ lesson.addEventListener("click", () => {
 });
 
 // Deck navigation
-const decks = [
-    document.getElementById("deck1a"),
-    document.getElementById("deck1b"),
-    document.getElementById("deck1c"),
-    document.getElementById("deck1d")
-];
+// Génère dynamiquement le tableau deckUrls selon le nombre de containers deck1x présents dans le HTML
+const deckUrls = (() => {
+    let urls = [];
+    let i = 0;
+    while (document.getElementById(`deck1${String.fromCharCode(97 + i)}`)) {
+        urls.push(`./LESSONS/test${i+1}.html`);
+        i++;
+    }
+    return urls;
+})();
+
+function getLessonContainer(index) {
+    return document.getElementById(`deck1${String.fromCharCode(97 + index)}`);
+}
 
 let currentPage = 0;
 
 function displayPage(page) {
-    decks.forEach((deck, index) => {
-        deck.classList.toggle("show", index === page);
-        deck.classList.toggle("hide", index !== page);
-    });
+    for (let i = 0; i < deckUrls.length; i++) {
+        const deck = getLessonContainer(i);
+        if (deck) {
+            deck.classList.toggle("show", i === page);
+            deck.classList.toggle("hide", i !== page);
+            if (i === page) {
+                loadHTMLIntoContainer(deckUrls[i], deck.id);
+            } else {
+                deck.innerHTML = "";
+            }
+        }
+    }
 }
 
 function prev() {
-    currentPage = (currentPage === 0) ? decks.length - 1 : currentPage - 1;
+    currentPage = (currentPage === 0) ? deckUrls.length - 1 : currentPage - 1;
     displayPage(currentPage);
 }
 
 function next() {
-    currentPage = (currentPage === decks.length - 1) ? 0 : currentPage + 1;
+    currentPage = (currentPage === deckUrls.length - 1) ? 0 : currentPage + 1;
     displayPage(currentPage);
 }
 
-// 
+// function loadHTMLIntoContainer(url, containerId) {
+//     fetch(url)
+//         .then(response => response.text())
+//         .then(html => {
+//             document.getElementById(containerId).innerHTML = html;
+//         })
+//         .catch(error => console.error('Erreur de chargement:', error));
+// }
 
-const deckIds = ["deck1a", "deck1b", "deck1c", "deck1d"];
-const deckUrls = [
-    "./LESSONS/test1.html", // pour deck1a
-    "./LESSONS/test2.html", // pour deck1b
-    "./LESSONS/test3.html", // pour deck1c
-    "./LESSONS/test4.html"  // pour deck1d
-];
+
 
 function loadHTMLIntoContainer(url, containerId) {
     fetch(url)
         .then(response => response.text())
         .then(html => {
             document.getElementById(containerId).innerHTML = html;
-            Prism.highlightAll(); // <-- Ajoute cette ligne !
+            Prism.highlightAll();
         })
         .catch(error => console.error('Erreur de chargement:', error));
 }
 
-function displayPage(page) {
-    deckIds.forEach((id, index) => {
-        const deck = document.getElementById(id);
-        deck.classList.toggle("show", index === page);
-        deck.classList.toggle("hide", index !== page);
-        if (index === page) {
-            loadHTMLIntoContainer(deckUrls[index], id);
-        } else {
-            deck.innerHTML = ""; // décharge le contenu
-        }
-    });
-}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     displayPage(0); // Affiche et charge le contenu du premier deck (deck1a)
 });

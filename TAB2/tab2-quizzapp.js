@@ -1,6 +1,6 @@
 var selectedopt;
 
-var QuizApp = function (quizData) {
+var QuizApp = function (quizData, resultContainerId) {
     this.quiz = quizData;
     this.score = 0;
     this.currentque = 0;
@@ -55,8 +55,8 @@ var QuizApp = function (quizData) {
     };
 
     this.showResult = function () {
-        const resultContainer = document.getElementById("result1");
-        resultContainer.classList.add('result1');
+        const resultContainer = document.getElementById(resultContainerId);
+        resultContainer.classList.add(resultContainerId);
         resultContainer.innerHTML = `<h1 class='res-header'>Total Score: ${self.score}/${self.totalque}</h1>`;
 
         for (var j = 0; j < self.totalque; j++) {
@@ -65,21 +65,15 @@ var QuizApp = function (quizData) {
                 ? `<span class="wrong">${q.score}</span><i class="fa fa-remove c-wrong"></i>`
                 : `<span class="correct">${q.score}</span><i class="fa fa-check c-correct"></i>`;
 
-            // Correction ici : affiche toutes les bonnes réponses
-            let correctAnswer;
-            if (Array.isArray(q.answer)) {
-                correctAnswer = q.answer.map(key => q.options[0][key]).join(', ');
-            } else {
-                correctAnswer = q.options[0][q.answer];
-            }
+            const correctAnswer = q.options[0][q.answer];
 
             const resultItem = `
-            <div class="result1-item">
-                <div class="result-question"><span>Q ${q.id}</span> &nbsp;${q.question}</div>
-                <div><b>Correct answer:</b> &nbsp;${correctAnswer}</div>
-                <div class="last-row"><b>Score:</b> &nbsp;${res}</div>
-            </div>
-        `;
+                <div class="${resultContainerId}-item">
+                    <div class="result-question"><span>Q ${q.id}</span> &nbsp;${q.question}</div>
+                    <div><b>Correct answer:</b> &nbsp;${correctAnswer}</div>
+                    <div class="last-row"><b>Score:</b> &nbsp;${res}</div>
+                </div>
+            `;
             resultContainer.insertAdjacentHTML('beforeend', resultItem);
         }
     };
