@@ -21,10 +21,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Colorer l'onglet actif par itération
     const path = window.location.pathname;
+    const currentPage = path.split('/').pop();
     const navLinks = document.querySelectorAll('#navMenu a');
     navLinks.forEach(link => {
-      if (link.href && path && link.href.includes(path)) {
+      const linkPage = link.getAttribute('href').split('/').pop();
+      if (linkPage === currentPage) {
         link.classList.add('active-tab');
+      } else {
+        link.classList.remove('active-tab');
       }
     });
   }

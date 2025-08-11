@@ -14,10 +14,10 @@ window.setActiveNavButton = setActiveNavButton;
 // setActiveNavButton(0) pour leçon, setActiveNavButton(1) pour quiz1, etc.
 // --- Gestion des containers ---
 function getResultContainer(index) {
-    return document.getElementById(`deck2${String.fromCharCode(97 + index)}`);
+    return document.querySelector(`.deck2${String.fromCharCode(97 + index)}`);
 }
 function getLessonContainer(index) {
-    return document.getElementById(`deck1${String.fromCharCode(97 + index)}`);
+    return document.querySelector(`.deck1${String.fromCharCode(97 + index)}`);
 }
 
 // --- Gestion des scripts ---
@@ -98,7 +98,7 @@ function loadQuizz(n) {
 }
 // --- Gestion des leçons ---
 const lessonDeck = document.getElementById("deck1-lessons");
-document.getElementById("lesson-btn").addEventListener("click", () => {
+document.querySelector(".lesson-btn").addEventListener("click", () => {
     setActiveNavButton(0);
     for (let i = 0; i < 26; i++) {
         const container = getResultContainer(i);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- probleme avec le body.css conflit sur l'affichage du quizz -->
-    <!-- <link rel="stylesheet" href="../assets/css/body.css"> -->
+    <link rel="stylesheet" href="../assets/css/body.css">
     <!-- <link rel="stylesheet" href="../assets/css/header.css"> -->
     <link rel="stylesheet" href="./tab1quizz.css">
     <link rel="stylesheet" href="./tab1.css">
@@ -24,29 +24,28 @@
     <header>
         <script src="../header.js" defer></script>
     </header>
-    <h3>page actuel onglet 1</h3>
     <nav class="deck0-nav">
-        <button id="lesson-btn">lessons tab1</button>
-        <button id="quizz1-btn" onclick="loadQuizz(0)">Quizz tab1-1</button>
-        <button id="quizz2-btn" onclick="loadQuizz(1)">Quizz tab1-2</button>
-        <button id="quizz3-btn" onclick="loadQuizz(2)">Quizz tab1-3</button>
-        <button id="quizz4-btn" onclick="loadQuizz(3)">Quizz tab1-4</button>
+        <button class="lesson-btn">lessons tab1</button>
+        <button class="quizz-btn quizz1-btn" onclick="loadQuizz(0)">Quizz tab1-1</button>
+        <button class="quizz-btn quizz2-btn" onclick="loadQuizz(1)">Quizz tab1-2</button>
+        <button class="quizz-btn quizz3-btn" onclick="loadQuizz(2)">Quizz tab1-3</button>
+        <button class="quizz-btn quizz4-btn" onclick="loadQuizz(3)">Quizz tab1-4</button>
     </nav>
     <section id="deck1">
-        <div id="deck1-lessons">
-            <div id="deck1a"></div>
-            <div id="deck1b" class="hide"></div>
-            <div id="deck1c" class="hide"></div>
-            <div id="deck1d" class="hide"></div>
+        <div id="deck1-lessons" class="flex">
+            <div class="deck1a"></div>
+            <div class="deck1b hide"></div>
+            <div class="deck1c hide"></div>
+            <div class="deck1d hide"></div>
             <div class="lesson-buttons">
-                <button id="btn-left" onclick="prev()">
+                <button class="btn-left" onclick="prev()">
                     <div>
                         <img src="../assets/icons/chevron-left-solid.svg" alt="">
                         <img src="../assets/icons/chevron-left-solid.svg" alt="">
                     </div>
                     Prev
                 </button>
-                <button id="btn-right" onclick="next()">Next
+                <button class="btn-right" onclick="next()">Next
                     <div>
                         <img src="../assets/icons/chevron-right-solid.svg" alt="">
                         <img src="../assets/icons/chevron-right-solid.svg" alt="">
@@ -55,12 +54,12 @@
             </div>
         </div>
     </section>
-    <sectio id="deck2">
+    <section id="deck2">
         <div class="deck2-quizzes">
-            <div id="deck2a" class="quiz-body hide"></div>
-            <div id="deck2b" class="quiz-body hide"></div>
-            <div id="deck2c" class="quiz-body hide"></div>
-            <div id="deck2d" class="quiz-body hide"></div>
+            <div class="deck2a quiz-body hide"></div>
+            <div class="deck2b quiz-body hide"></div>
+            <div class="deck2c quiz-body hide"></div>
+            <div class="deck2d quiz-body hide"></div>
         </div>
         </section>
 </body>
