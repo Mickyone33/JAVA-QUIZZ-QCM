@@ -97,7 +97,7 @@ function loadQuizz(n) {
     loadQuizzContent(n, `./QUIZZES/tab1-quizz${n + 1}.js`);
 }
 // --- Gestion des leçons ---
-const lessonDeck = document.getElementById("deck1-lessons");
+const lessonDeck = document.querySelector(".deck1-lessons");
 document.querySelector(".lesson-btn").addEventListener("click", () => {
     setActiveNavButton(0);
     for (let i = 0; i < 26; i++) {
@@ -112,7 +112,7 @@ document.querySelector(".lesson-btn").addEventListener("click", () => {
 // --- Navigation des leçons ---
 const deckUrls = (() => {
     let urls = [], i = 0;
-    while (document.getElementById(`deck1${String.fromCharCode(97 + i)}`)) {
+    while (document.querySelector(`deck1${String.fromCharCode(97 + i)}`)) {
         urls.push(`./LESSONS/test${i + 1}.html`);
         i++;
     }

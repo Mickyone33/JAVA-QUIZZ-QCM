@@ -31,22 +31,22 @@
         <button class="quizz-btn quizz3-btn" onclick="loadQuizz(2)">Quizz tab1-3</button>
         <button class="quizz-btn quizz4-btn" onclick="loadQuizz(3)">Quizz tab1-4</button>
     </nav>
-    <section id="deck1">
-        <div id="deck1-lessons" class="flex">
+    <section class="deck1">
+        <div class="deck1-lessons">
             <div class="deck1a"></div>
             <div class="deck1b hide"></div>
             <div class="deck1c hide"></div>
             <div class="deck1d hide"></div>
             <div class="lesson-buttons">
                 <button class="btn-left" onclick="prev()">
-                    <div>
+                    <div class="chevron-left">
                         <img src="../assets/icons/chevron-left-solid.svg" alt="">
                         <img src="../assets/icons/chevron-left-solid.svg" alt="">
                     </div>
                     Prev
                 </button>
                 <button class="btn-right" onclick="next()">Next
-                    <div>
+                    <div class="chevron-right">
                         <img src="../assets/icons/chevron-right-solid.svg" alt="">
                         <img src="../assets/icons/chevron-right-solid.svg" alt="">
                     </div>
@@ -54,7 +54,7 @@
             </div>
         </div>
     </section>
-    <section id="deck2">
+    <section class="deck2">
         <div class="deck2-quizzes">
             <div class="deck2a quiz-body hide"></div>
             <div class="deck2b quiz-body hide"></div>
